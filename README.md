@@ -1,6 +1,5 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Malicious Code Scanner
+This project aims to detect and scan the malicious code in the project. Mostly these types of scam projects are on freelancing marketplaces
 
 ## Available Scripts
 
