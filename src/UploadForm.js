@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Button from "@mui/joy/Button";
+import { styled } from "@mui/joy";
+import Scanner from "@mui/icons-material/Scanner";
 
 const UploadForm = ({ handleUpload }) => {
   const [file, setFile] = useState(null);
@@ -8,9 +11,13 @@ const UploadForm = ({ handleUpload }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (file) {
-      handleUpload(file);
+    try {
+      e.preventDefault();
+      if (file) {
+        handleUpload(file);
+      }
+    } catch (e) {
+      alert(e);
     }
   };
 
@@ -18,8 +25,10 @@ const UploadForm = ({ handleUpload }) => {
     <div>
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} />
-        
-        <button type="submit">Scan</button>
+
+        <Button style={{ marginLeft: "50px" }} type="submit" startDecorator={<Scanner />}>
+          Scan
+        </Button>
       </form>
     </div>
   );
