@@ -18,6 +18,7 @@ const UploadForm = ({ handleUpload }) => {
     <div>
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} />
+        
         <button type="submit">Scan</button>
       </form>
     </div>

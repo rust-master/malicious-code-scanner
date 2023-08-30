@@ -6,7 +6,7 @@ const SearchResults = ({ results }) => {
       <h2>Search Results:</h2>
       <ul>
         {results.map((result, index) => (
-          <li key={index}>{result}</li>
+          <li style={{listStyle: "none"}} key={index}>{result}</li>
         ))}
       </ul>
     </div>
