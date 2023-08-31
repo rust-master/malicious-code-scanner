@@ -69,15 +69,11 @@ p a {
 
 .scanBtn {
   @media (max-width: 576px) {
-    width: 100px;
   }
 }
 .formDiv {
   @media (max-width: 576px) {
     flex-direction: column;
     row-gap: 20px;
-    /* justify-content: center;
-    justify-content: center;
-    align-items: center; */
   }
 }
