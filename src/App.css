@@ -1,9 +1,14 @@
 .App {
   text-align: center;
-  height: 70vh;
+  height: 75vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden !important;
+}
+
+body {
+  overflow: hidden !important;
 }
 
 .App-logo {
@@ -27,10 +32,6 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -40,7 +41,7 @@
   }
 }
 
-p{
+p {
   text-align: center;
   padding: 30px;
 }
@@ -52,4 +53,31 @@ p a {
   justify-content: center;
   display: flex;
   align-items: center;
+}
+
+.CardDiv {
+  @media (max-width: 576px) {
+    width: 300px;
+  }
+}
+
+.fileInput {
+  @media (max-width: 576px) {
+    width: 200px;
+  }
+}
+
+.scanBtn {
+  @media (max-width: 576px) {
+    width: 100px;
+  }
+}
+.formDiv {
+  @media (max-width: 576px) {
+    flex-direction: column;
+    row-gap: 20px;
+    /* justify-content: center;
+    justify-content: center;
+    align-items: center; */
+  }
 }

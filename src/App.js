@@ -10,8 +10,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import ResponsiveAppBar from "./AppBar";
 import { motion } from "framer-motion";
 
-import { pageVariants, pageTransition } from "./utils/FramerAnimation.ts";
-
 function App() {
   const [results, setResults] = useState([]);
   const [progressBar, setProgressBar] = useState(false);
@@ -56,14 +54,19 @@ function App() {
   return (
     <div
       style={{
+        overflow: "hidden !important",
         backgroundColor:
           results.length === 0 ? "white" : results[0] === "No Malicious Code Found" ? "#3cbe4b" : "#f10e43",
       }}
     >
       <ResponsiveAppBar />
       <div className="App">
-        <motion.div initial="init" animate="anim" exit="last" variants={pageVariants} transition={pageTransition}>
-          <Card sx={{ marginTop: 5, minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
+        <motion.div animate={{
+      scale: [1, 2, 2, 1, 1],
+      rotate: [0, 0, 270, 270, 0],
+      borderRadius: ["20%", "20%", "50%", "50%", "20%"],
+    }}>
+          <Card className="CardDiv" sx={{ marginTop: 5, minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
             <CardContent>
               <Typography
                 sx={{ fontSize: 24, fontFamily: "Be Vietnam Pro", fontWeight: 600 }}
