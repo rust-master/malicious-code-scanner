@@ -4,11 +4,13 @@ import UploadForm from "./UploadForm";
 import SearchResults from "./SearchResults";
 import JSZip from "jszip";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import ResponsiveAppBar from "./AppBar";
+import { motion } from "framer-motion";
+
+import { pageVariants, pageTransition } from "./utils/FramerAnimation.ts";
 
 function App() {
   const [results, setResults] = useState([]);
@@ -60,29 +62,31 @@ function App() {
     >
       <ResponsiveAppBar />
       <div className="App">
-        <Card sx={{ marginTop: 5, minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 24, fontFamily: "Be Vietnam Pro", fontWeight: 600 }}
-              color="#1A76D2"
-              gutterBottom
-            >
-              Malicious Code Scanner
-            </Typography>
+        <motion.div initial="init" animate="anim" exit="last" variants={pageVariants} transition={pageTransition}>
+          <Card sx={{ marginTop: 5, minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
+            <CardContent>
+              <Typography
+                sx={{ fontSize: 24, fontFamily: "Be Vietnam Pro", fontWeight: 600 }}
+                color="#1A76D2"
+                gutterBottom
+              >
+                Malicious Code Scanner
+              </Typography>
 
-            <Typography variant="body2">{"Upload the Zip File of Project"}</Typography>
-          </CardContent>
-          <CardActions>
+              <Typography variant="body2">{"Upload the Zip File of Project"}</Typography>
+            </CardContent>
+
             <UploadForm handleUpload={handleUpload} />
-          </CardActions>
-          <SearchResults results={results} />
 
-          <LinearProgress color="success" style={{ display: progressBar === false ? "none" : "block" }} />
-        </Card>
+            <SearchResults results={results} />
+
+            <LinearProgress color="success" style={{ display: progressBar === false ? "none" : "block" }} />
+          </Card>
+        </motion.div>
       </div>
       <p>
         Made by{" "}
-        <a href="https://github.com/rust-master" target="_blank" rel="noreferrer">
+        <a style={{ color: "#1A76D2" }} href="https://github.com/rust-master" target="_blank" rel="noreferrer">
           Rust Master ❤️{" "}
         </a>
       </p>

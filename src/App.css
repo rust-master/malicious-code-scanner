@@ -47,3 +47,9 @@ p{
 p a {
   text-decoration: none;
 }
+
+.formDiv {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
