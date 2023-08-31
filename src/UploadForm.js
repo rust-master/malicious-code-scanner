@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Button from "@mui/joy/Button";
-import { styled } from "@mui/joy";
 import Scanner from "@mui/icons-material/Scanner";
 
 const UploadForm = ({ handleUpload }) => {
@@ -26,7 +25,7 @@ const UploadForm = ({ handleUpload }) => {
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} />
 
-        <Button style={{ marginLeft: "50px" }} type="submit" startDecorator={<Scanner />}>
+        <Button type="submit" startDecorator={<Scanner />}>
           Scan
         </Button>
       </form>

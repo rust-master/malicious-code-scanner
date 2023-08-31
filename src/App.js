@@ -10,6 +10,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
 import LinearProgress from "@mui/material/LinearProgress";
+import ResponsiveAppBar from "./AppBar";
 
 function App() {
   const [results, setResults] = useState([]);
@@ -58,8 +59,9 @@ function App() {
         backgroundColor: results.length === 0 ? "white" : results[0] === "No Malicious Code Found" ? "green" : "red",
       }}
     >
+      <ResponsiveAppBar />
       <div className="App">
-        <Card sx={{ minWidth: 275 }}>
+        <Card sx={{ minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
           <CardContent>
             <Typography sx={{ fontSize: 24 }} color="black" gutterBottom>
               Malicious Code Scanner
