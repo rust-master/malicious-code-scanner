@@ -56,14 +56,15 @@ function App() {
   return (
     <div
       style={{
-        backgroundColor: results.length === 0 ? "white" : results[0] === "No Malicious Code Found" ? "green" : "red",
+        backgroundColor:
+          results.length === 0 ? "white" : results[0] === "No Malicious Code Found" ? "#3cbe4b" : "#f10e43",
       }}
     >
       <ResponsiveAppBar />
       <div className="App">
         <Card sx={{ minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
           <CardContent>
-            <Typography sx={{ fontSize: 24 }} color="black" gutterBottom>
+            <Typography sx={{ fontSize: 24, fontFamily: "Be Vietnam Pro", fontWeight: 600, }} color="#1A76D2" gutterBottom>
               Malicious Code Scanner
             </Typography>
             <Typography variant="h5" component="div">
@@ -83,7 +84,6 @@ function App() {
           <LinearProgress color="success" style={{ display: progressBar === false ? "none" : "block" }} />
         </Card>
       </div>
-
       <p>
         Made by{" "}
         <a href="https://github.com/rust-master/malicious-code-scanner" target="_blank" rel="noreferrer">
