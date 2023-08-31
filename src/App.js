@@ -3,12 +3,10 @@ import "./App.css";
 import UploadForm from "./UploadForm";
 import SearchResults from "./SearchResults";
 import JSZip from "jszip";
-
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-
 import LinearProgress from "@mui/material/LinearProgress";
 import ResponsiveAppBar from "./AppBar";
 
@@ -62,22 +60,20 @@ function App() {
     >
       <ResponsiveAppBar />
       <div className="App">
-        <Card sx={{ minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
+        <Card sx={{ marginTop: 5, minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
           <CardContent>
-            <Typography sx={{ fontSize: 24, fontFamily: "Be Vietnam Pro", fontWeight: 600, }} color="#1A76D2" gutterBottom>
+            <Typography
+              sx={{ fontSize: 24, fontFamily: "Be Vietnam Pro", fontWeight: 600 }}
+              color="#1A76D2"
+              gutterBottom
+            >
               Malicious Code Scanner
             </Typography>
-            <Typography variant="h5" component="div">
-              {/* be{bull}nev{bull}o{bull}lent */}
-            </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {/* adjective */}
-            </Typography>
+
             <Typography variant="body2">{"Upload the Zip File of Project"}</Typography>
           </CardContent>
           <CardActions>
-            {/* <Button  variant="contained"> */} <UploadForm handleUpload={handleUpload} />
-            {/* </Button> */}
+            <UploadForm handleUpload={handleUpload} />
           </CardActions>
           <SearchResults results={results} />
 
