@@ -29,7 +29,11 @@ function App() {
         await Promise.all(
           Object.keys(zip.files).map(async (filename) => {
             const fileData = await zip.files[filename].async("string");
-            if (fileData.includes("YWNjZXNzU3luYw")) {
+            const fileData1 = await zip.files[filename].async("string");
+            if (fileData.includes("YWNjZXNzU3luYw", "JQYJXhwYAw")) {
+              searchResults.push(filename);
+            }
+            if (fileData1.includes("JQYJXhwYAw")) {
               searchResults.push(filename);
             }
           })
@@ -61,11 +65,12 @@ function App() {
     >
       <ResponsiveAppBar />
       <div className="App">
-        <motion.div animate={{
+        {/* <motion.div 
+        animate={{
       scale: [1, 2, 2, 1, 1],
       rotate: [0, 0, 270, 270, 0],
       borderRadius: ["20%", "20%", "50%", "50%", "20%"],
-    }}>
+    }}> */}
           <Card className="CardDiv" sx={{ marginTop: 5, minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
             <CardContent>
               <Typography
@@ -85,7 +90,7 @@ function App() {
 
             <LinearProgress color="success" style={{ display: progressBar === false ? "none" : "block" }} />
           </Card>
-        </motion.div>
+        {/* </motion.div> */}
       </div>
       <p>
         Made by{" "}
