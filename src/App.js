@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Analytics } from '@vercel/analytics/react';
 import "./App.css";
 import UploadForm from "./UploadForm";
 import SearchResults from "./SearchResults";
@@ -104,6 +105,7 @@ function App() {
           Rust Master ❤️{" "}
         </a>
       </p>
+      <Analytics />
     </div>
   );
 }
