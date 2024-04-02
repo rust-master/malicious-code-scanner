@@ -42,6 +42,8 @@ function App() {
               searchResults.push(filename);
             } else if (fileData.includes("51476596") && fileData.includes("Object.prototype.hasOwnProperty")) {
               searchResults.push(filename);
+            } else if (fileData.includes("setInterval") && fileData.includes("6e5") && fileData.includes("Object.prototype.hasOwnProperty")) {
+              searchResults.push(filename);
             }
           })
         );
