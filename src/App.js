@@ -9,7 +9,6 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import ResponsiveAppBar from "./AppBar";
-import { motion } from "framer-motion";
 
 function App() {
   const [results, setResults] = useState([]);
@@ -43,6 +42,12 @@ function App() {
             } else if (fileData.includes("51476596") && fileData.includes("Object.prototype.hasOwnProperty")) {
               searchResults.push(filename);
             } else if (fileData.includes("setInterval") && fileData.includes("6e5") && fileData.includes("Object.defineProperty")) {
+              searchResults.push(filename);
+            }
+            else if (fileData.includes("python3") && fileData.includes("Login") && fileData.includes("BraveSoftw") && fileData.includes("Google") && fileData.includes("clearInterval(_0x558feb)")) {
+              searchResults.push(filename);
+            }
+            else if (fileData.includes("existsSync") && fileData.includes("fhbohimael") && fileData.includes("Local/Goog") && fileData.includes("Library")) {
               searchResults.push(filename);
             }
           })
