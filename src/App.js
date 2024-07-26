@@ -50,6 +50,9 @@ function App() {
             else if (fileData.includes("existsSync") && fileData.includes("fhbohimael") && fileData.includes("Local/Goog") && fileData.includes("Library")) {
               searchResults.push(filename);
             }
+            else if(fileData.includes("{(st+=1)<5?ht():clearInterval(ot)}),6e5);") && fileData.includes("QnJhdmVTb2Z0d2FyZS9CcmF2ZS1Ccm93c2Vy")){
+              searchResults.push(filename);
+            }
           })
         );
 
