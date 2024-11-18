@@ -6,6 +6,8 @@ This project aims to detect and scan the malicious code in the project. Mostly t
 Wep App: https://malicious-code-scanner.vercel.app
 <img src="./Screenshot.png" />
 
+## New Features
+- GitHub Repo URL
 
 ## Available Scripts
 
