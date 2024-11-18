@@ -252,92 +252,138 @@ function App() {
   const backgroundColor = isNewFile
     ? "black"
     : results.length === 0
-      ? "white"
+      ? "#343642"
       : results[0] === "No Malicious Code Found"
         ? "#3cbe4b"
         : "#f10e43";
 
   return (
     <div
-      className="main"
-      style={{
-        overflow: "hidden !important",
-        backgroundColor: backgroundColor,
-      }}
-    >
-      <ResponsiveAppBar />
-      <div className="App">
-        <ToastContainer />
-        <Card className="CardDiv" sx={{ marginTop: 5, minWidth: 275, boxShadow: "5px 5px 6px 4px #1A76D2" }}>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 24, fontFamily: "Be Vietnam Pro", fontWeight: 600 }}
-              color="#1A76D2"
-              gutterBottom
-            >
-              Malicious Code Scanner
-            </Typography>
-            <Typography
-              variant="h6"
-              style={{
-                color: "#1A76D2",
-                fontWeight: "bold",
-                textAlign: "center",
-                marginBottom: "15px",
-                fontFamily: "Arial, sans-serif",
-                lineHeight: "1.6",
-              }}
-            >
-              Upload the Zip File of Project or Enter a GitHub/Bitbucket Project URL
-            </Typography>
-          </CardContent>
-
-          <div>
-            <input
-              type="text"
-              value={githubURL}
-              onChange={(e) => setGithubURL(e.target.value)}
-              placeholder="Enter GitHub or Bitbucket Project URL"
-              style={{
-                width: "80%",
-                margin: "10px auto",
-                display: "block",
-                padding: "10px",
-              }}
-            />
-            <button
-              onClick={handleDownload}
-              style={{
-                backgroundColor: "#1A76D2",
-                color: "white",
-                border: "none",
-                padding: "10px 20px",
-                cursor: "pointer",
-                marginBottom: "20px",
-              }}
-            >
-              Download and Scan
-            </button>
-          </div>
-
-          <div>OR</div>
-
-          <UploadForm handleUpload={handleUpload} fileInputRef={fileInputRef} setGithubURL={setGithubURL} githubURL={githubURL} setResults={setResults} results={results} />
-
-
-          <SearchResults results={results} />
-
-          <LinearProgress color="success" style={{ display: progressBar === false ? "none" : "block" }} />
-        </Card>
-      </div>
-      <p>
-        Made by{" "}
-        <a style={{ color: "#1A76D2" }} href="https://github.com/rust-master" target="_blank" rel="noreferrer">
-          Rust Master ❤️{" "}
-        </a>
-      </p>
-      <Analytics />
+    className="main"
+    style={{
+      overflow: "hidden",
+      backgroundColor: backgroundColor,
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    }}
+  >
+    <ResponsiveAppBar />
+    <div className="App" style={{ width: "100%", maxWidth: "800px", margin: "auto" }}>
+      <ToastContainer />
+      <Card
+        className="CardDiv"
+        sx={{
+          marginTop: 5,
+          marginBottom: 5,
+          padding: "20px",
+          boxShadow: "10 18px 26px rgba(0, 0, 0, 0.2)",
+          borderRadius: "10px",
+        }}
+      >
+        <CardContent>
+          <Typography
+            variant="h5"
+            style={{
+              color: "#1A76D2",
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: "20px",
+              fontFamily: "Be Vietnam Pro, Arial, sans-serif",
+              lineHeight: "1.6",
+            }}
+          >
+            Upload the Zip File of a Project or Enter a GitHub/Bitbucket Project URL
+          </Typography>
+        </CardContent>
+  
+        {/* Input Section */}
+        <div style={{ marginBottom: "20px" }}>
+          <input
+            type="text"
+            value={githubURL}
+            onChange={(e) => setGithubURL(e.target.value)}
+            placeholder="Enter GitHub or Bitbucket Project URL"
+            style={{
+              width: "97%",
+              padding: "10px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              fontSize: "16px",
+              marginBottom: "10px",
+            }}
+          />
+          <button
+            onClick={handleDownload}
+            style={{
+              width: "100%",
+              backgroundColor: "#1A76D2",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              padding: "10px",
+              fontSize: "16px",
+              cursor: "pointer",
+            }}
+          >
+            Download and Scan
+          </button>
+        </div>
+  
+        {/* Divider */}
+        <Typography
+          variant="body2"
+          style={{
+            textAlign: "center",
+            margin: "20px 0",
+            color: "#666",
+            fontFamily: "Arial, sans-serif",
+          }}
+        >
+          OR
+        </Typography>
+  
+        {/* File Upload Section */}
+        <UploadForm
+          handleUpload={handleUpload}
+          fileInputRef={fileInputRef}
+          setGithubURL={setGithubURL}
+          githubURL={githubURL}
+          setResults={setResults}
+          results={results}
+        />
+  
+        {/* Scan Results Section */}
+        <SearchResults results={results} />
+  
+        {/* Progress Bar */}
+        <LinearProgress
+          color="success"
+          sx={{
+            display: progressBar === false ? "none" : "block",
+            marginTop: "20px",
+            borderRadius: "5px",
+          }}
+        />
+      </Card>
     </div>
+  
+    {/* Footer */}
+    <footer style={{ marginBottom: "20px", fontSize: "14px", color: "#666" }}>
+    Developed by{" "}
+      <a
+        style={{ color: "#1A76D2", textDecoration: "none"}}
+        href="https://github.com/rust-master"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Rust Master ❤️
+      </a>
+    </footer>
+    <Analytics />
+  </div>
+  
   );
 }
 

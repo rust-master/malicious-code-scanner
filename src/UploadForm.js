@@ -32,15 +32,41 @@ const UploadForm = ({ handleUpload, fileInputRef, setGithubURL, githubURL }) => 
   }, [githubURL]);  // Only when githubURL change
 
   return (
-    <div style={{marginTop:"8px"}}>
-      <form onSubmit={handleSubmit} className="formDiv">
-        <input className="fileInput" type="file" onChange={handleFileChange} ref={fileInputRef}/>
+<div style={{ marginTop: "20px", textAlign: "center" }}>
+  <form onSubmit={handleSubmit} className="formDiv" style={{ display: "inline-block", width: "100%" }}>
+    <input
+      className="fileInput"
+      type="file"
+      onChange={handleFileChange}
+      ref={fileInputRef}
+      style={{
+        display: "block",
+        margin: "10px auto",
+        padding: "10px",
+        border: "1px solid #ccc",
+        borderRadius: "5px",
+        width: "80%",
+      }}
+    />
 
-        <Button className="scanBtn" type="submit" startDecorator={<Scanner />}>
-          Scan
-        </Button>
-      </form>
-    </div>
+    <Button
+      className="scanBtn"
+      type="submit"
+      startDecorator={<Scanner />}
+      sx={{
+        backgroundColor: "#1A76D2",
+        color: "white",
+        textTransform: "none",
+        fontWeight: "bold",
+        marginTop: "10px",
+        borderRadius: "5px",
+        "&:hover": { backgroundColor: "#155a9f" },
+      }}
+    >
+      Scan
+    </Button>
+  </form>
+</div>
   );
 };
 
