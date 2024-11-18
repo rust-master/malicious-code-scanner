@@ -62,6 +62,7 @@ p a {
 }
 
 .fileInput {
+  cursor:pointer !important;
   @media (max-width: 576px) {
     width: 200px;
   }
