@@ -58,7 +58,6 @@ const UploadForm = ({ handleUpload, fileInputRef, setGithubURL, githubURL }) => 
             color: "white",
             textTransform: "none",
             fontWeight: "bold",
-            marginTop: "10px",
             width: "98%",
             borderRadius: "5px",
             "&:hover": { backgroundColor: "#155a9f" },
