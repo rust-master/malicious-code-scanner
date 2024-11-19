@@ -371,22 +371,13 @@ function App() {
 
       {/* Footer */}
 
-      <footer style={{ marginBottom: "20px", fontSize: "14px", color: "#e8e8e8" }}>
+      <footer style={{ marginBottom: "20px", fontSize: "14px", color: "#666" }}>
         Developed by{" "}
         <a
-          id="footer-a"
-          style={{ color: "#FF6347", fontSize: "14px", textDecoration: "none" }}
+          style={{ color: "#1A76D9", textDecoration: "none" }}
           href="https://github.com/rust-master"
           target="_blank"
           rel="noreferrer"
-          onMouseEnter={(e) => {
-            e.target.style.transform = "scale(1.1)";
-            e.target.style.color = "#FFD700"; // Tomato color on hover
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = "scale(1)";
-            e.target.style.color = "#FF6347"; // Default color
-          }}
         >
           Rust Master ❤️
         </a>
