@@ -447,7 +447,7 @@ function App() {
                 lineHeight: "1.6",
               }}
             >
-              Upload the Zip File of a Project or Enter a GitHub/Bitbucket Project URL
+              Upload a project ZIP file or enter a GitHub, GitLab, or Bitbucket project URL
             </Typography>
           </CardContent>
 
@@ -457,7 +457,7 @@ function App() {
               type="text"
               value={githubURL}
               onChange={(e) => setGithubURL(e.target.value)}
-              placeholder="Enter GitHub or Bitbucket Project URL"
+              placeholder="Enter a GitHub, GitLab, or Bitbucket project URL"
               style={{
                 width: "97%",
                 padding: "10px",
