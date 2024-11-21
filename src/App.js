@@ -13,7 +13,6 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 function App() {
   const [results, setResults] = useState([]);
   const [progressBar, setProgressBar] = useState(false);
@@ -109,6 +108,7 @@ function App() {
         }
         setProgressBar(false);
       } catch (e) {
+        setProgressBar(false);
         alert(e);
       }
     };
@@ -133,9 +133,11 @@ function App() {
         await handleGitHubDownload();
       } else if (host.includes("bitbucket.org")) {
         await handleBitbucketDownload();
+      } else if (host.includes("gitlab") && host.includes(".com")) {
+        await handleGitLabDownload();
       } else {
-        alert("Unsupported URL. Please provide a GitHub or Bitbucket URL.");
-        throw new Error("Unsupported URL. Please provide a GitHub or Bitbucket URL.");
+        alert("Unsupported URL. Please provide a GitHub, GitLab or Bitbucket URL.");
+        throw new Error("Unsupported URL. Please provide a GitHub, GitLab or Bitbucket URL.");
       }
     } catch (error) {
       alert(error.message);
@@ -191,6 +193,150 @@ function App() {
         alert("Please enter a valid GitHub URL");
       }
     } catch (error) {
+      alert(error.message);
+    } finally {
+      setProgressBar(false);
+    }
+  };
+
+  const handleGitLabDownload = async () => {
+    try {
+
+      // validate the github URL
+      const url = new URL(githubURL);
+
+      if (!url.protocol.startsWith("https:")) {
+        alert("Invalid GitHub URL. Please enter a valid HTTPS URL")
+        throw new Error("Invalid GitHub URL. Please enter a valid HTTPS URL.");
+      }
+
+      if (githubURL) {
+
+        setProgressBar(true);
+        setIsNewFile(true);
+
+
+        const url = new URL(githubURL);
+        console.log("🚀 ~ handleGitLabDownload ~ url:", url);
+        const repo = url.pathname.replace(/^\//, "").replace(/\/$/, "");
+        console.log("🚀 ~ handleGitLabDownload ~ repo:", repo);
+
+        const projectID = encodeURIComponent(repo);
+        console.log("🚀 ~ handleGitLabDownload ~ projectID:", projectID);
+        const hostname = url.hostname;
+        console.log("🚀 ~ handleGitLabDownload ~ hostname:", hostname);
+        const apiURL = `https://${hostname}/api/v4/projects/${projectID}/repository/branches`;
+
+        try {
+          const response = await axios.get('https://malicious-code-scanner-backend.vercel.app/search', {
+            params: {
+              hostname,
+              projectID,
+            },
+          });
+          console.log("response",response.data);
+        } catch (err) {
+          console.log("🚀 ~ handleGitLabDownload ~ err:", err);
+        }
+
+      
+
+        // try {
+        //   const response = await fetch(apiURL);
+        //   console.log("🚀 ~ handleGitLabDownload ~ response:", response);
+        //   if (!response.ok) {
+        //     throw new Error(`Error: ${response.status} ${response.statusText}`);
+        //   }
+        //   const branches = await response.json();
+        //   console.log("Branches:", branches);
+
+
+
+          // for (const branch of branches) {
+          //   console.log("🚀 ~ handleGitLabDownload ~ branch:", branch);
+
+
+            
+          //   const idp = encodeURIComponent("rust/hello_world")
+          //   const newapiURL = `https://gitlab.com/api/v4/projects/${idp}/repository/archive`
+          //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
+
+          //   // const proxyURL = `https://corsproxy.io/?${encodeURIComponent(newapiURL)}`;
+
+          //   // const response = await fetch(proxyURL);
+
+
+
+
+          //   // GET /projects/:id/repository/blobs/:sha
+
+
+          //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/blobs/ad1b06b1f7f584d5331142c09650652e0a923151`;
+
+          //   // const newurl = 'https://gitlab.invozone.com/Zaryab/mvxwallets/-/archive/main/mvxwallets-main.zip';
+
+
+
+          //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
+          //   const proxyURL = `https://corsproxy.io/?${encodeURIComponent(newapiURL)}`;
+
+          //   // const headers = {
+          //   //   authorization: `Bearer ${token}`,
+          //   //   "user-agent": "NodeSecure"
+          //   // };
+
+          //   // const response = await fetch(newapiURL)
+
+          //   const response = await fetch(newapiURL, {
+          //     method: "GET",
+          //     headers: {
+          //         // "Authorization": `Bearer ${token}`, // Replace with your GitLab token
+          //         'Accept': 'application/vnd.github+json',
+          //         // 'User-Agent': 'request',
+          //         // "Accept": "application/octet-stream", // Indicate expected response type
+          //     },
+          // });
+
+
+    //       const projectID = encodeURIComponent("Zaryab/mvxwallets");
+    // const source = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
+
+
+    //   // Make a GET request to download the tar.gz file
+    //   const response = await axios.get(source, {
+    //     responseType: 'blob', // Get the data as a Blob
+    //     headers: {
+    //       // Add any required headers for authentication if necessary
+    //       Authorization: `Bearer ${token}`, // Replace with your GitLab token
+    //       Accept:  'application/octet-stream' 
+
+    //     }
+    //   });
+
+            // console.log("response", response)
+            // if (!response.ok) {
+            //     throw new Error(`Error: ${response.status} ${response.statusText}`);
+            // }
+
+              // const blob = await response.blob();
+              // console.log("🚀 ~ handleGitLabDownload ~ blob:", blob);
+              // const link = document.createElement("a");
+              // link.href = URL.createObjectURL(blob);
+              // link.download = "mvxwallets-main.zip";
+              // link.click();
+              // handleUpload(blob);
+          // }
+        // } catch (error) {
+        //   setProgressBar(false);
+        //   console.error("Failed to fetch:", error.message);
+        // }
+
+
+      } else {
+        alert("Please enter a valid URL");
+      }
+    } catch (error) {
+      setProgressBar(false);
       alert(error.message);
     } finally {
       setProgressBar(false);
@@ -371,22 +517,13 @@ function App() {
 
       {/* Footer */}
 
-      <footer style={{ marginBottom: "20px", fontSize: "14px", color: "#e8e8e8" }}>
+      <footer style={{ marginBottom: "20px", fontSize: "14px", color: "#666" }}>
         Developed by{" "}
         <a
-          id="footer-a"
-          style={{ color: "#FF6347", fontSize: "14px", textDecoration: "none" }}
+          style={{ color: "#1A76D9", textDecoration: "none" }}
           href="https://github.com/rust-master"
           target="_blank"
           rel="noreferrer"
-          onMouseEnter={(e) => {
-            e.target.style.transform = "scale(1.1)";
-            e.target.style.color = "#FFD700"; // Tomato color on hover
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = "scale(1)";
-            e.target.style.color = "#FF6347"; // Default color
-          }}
         >
           Rust Master ❤️
         </a>
