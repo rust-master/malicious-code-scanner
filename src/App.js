@@ -225,21 +225,28 @@ function App() {
         console.log("🚀 ~ handleGitLabDownload ~ projectID:", projectID);
         const hostname = url.hostname;
         console.log("🚀 ~ handleGitLabDownload ~ hostname:", hostname);
-        const apiURL = `https://${hostname}/api/v4/projects/${projectID}/repository/branches`;
+        // const apiURL = `https://${hostname}/api/v4/projects/${projectID}/repository/branches`;
 
-        try {
-          const response = await axios.get('https://malicious-code-scanner-backend.vercel.app/search', {
-            params: {
-              hostname,
-              projectID,
-            },
-          });
-          console.log("response",response.data);
-        } catch (err) {
-          console.log("🚀 ~ handleGitLabDownload ~ err:", err);
+        const response = await axios.get('https://malicious-code-scanner-backend.vercel.app/search', {
+          params: {
+            hostname,
+            projectID,
+          },
+        });
+
+        console.log("response", response.data);
+        setIsNewFile(false);
+
+        if (response.data.data === "No Malicious Code Found") {
+          toast.success("No Malicious Code Found");
+          searchResults.push("No Malicious Code Found");
+
+        } else {
+          toast.error(response.data.data);
+          searchResults.push(response.data.data);
         }
 
-      
+        setResults(searchResults);
 
         // try {
         //   const response = await fetch(apiURL);
@@ -252,80 +259,80 @@ function App() {
 
 
 
-          // for (const branch of branches) {
-          //   console.log("🚀 ~ handleGitLabDownload ~ branch:", branch);
-
-
-            
-          //   const idp = encodeURIComponent("rust/hello_world")
-          //   const newapiURL = `https://gitlab.com/api/v4/projects/${idp}/repository/archive`
-          //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
-
-          //   // const proxyURL = `https://corsproxy.io/?${encodeURIComponent(newapiURL)}`;
-
-          //   // const response = await fetch(proxyURL);
+        // for (const branch of branches) {
+        //   console.log("🚀 ~ handleGitLabDownload ~ branch:", branch);
 
 
 
+        //   const idp = encodeURIComponent("rust/hello_world")
+        //   const newapiURL = `https://gitlab.com/api/v4/projects/${idp}/repository/archive`
+        //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
 
-          //   // GET /projects/:id/repository/blobs/:sha
+        //   // const proxyURL = `https://corsproxy.io/?${encodeURIComponent(newapiURL)}`;
 
-
-          //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/blobs/ad1b06b1f7f584d5331142c09650652e0a923151`;
-
-          //   // const newurl = 'https://gitlab.invozone.com/Zaryab/mvxwallets/-/archive/main/mvxwallets-main.zip';
-
-
-
-          //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
-          //   const proxyURL = `https://corsproxy.io/?${encodeURIComponent(newapiURL)}`;
-
-          //   // const headers = {
-          //   //   authorization: `Bearer ${token}`,
-          //   //   "user-agent": "NodeSecure"
-          //   // };
-
-          //   // const response = await fetch(newapiURL)
-
-          //   const response = await fetch(newapiURL, {
-          //     method: "GET",
-          //     headers: {
-          //         // "Authorization": `Bearer ${token}`, // Replace with your GitLab token
-          //         'Accept': 'application/vnd.github+json',
-          //         // 'User-Agent': 'request',
-          //         // "Accept": "application/octet-stream", // Indicate expected response type
-          //     },
-          // });
+        //   // const response = await fetch(proxyURL);
 
 
-    //       const projectID = encodeURIComponent("Zaryab/mvxwallets");
-    // const source = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
 
 
-    //   // Make a GET request to download the tar.gz file
-    //   const response = await axios.get(source, {
-    //     responseType: 'blob', // Get the data as a Blob
-    //     headers: {
-    //       // Add any required headers for authentication if necessary
-    //       Authorization: `Bearer ${token}`, // Replace with your GitLab token
-    //       Accept:  'application/octet-stream' 
+        //   // GET /projects/:id/repository/blobs/:sha
 
-    //     }
-    //   });
 
-            // console.log("response", response)
-            // if (!response.ok) {
-            //     throw new Error(`Error: ${response.status} ${response.statusText}`);
-            // }
+        //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/blobs/ad1b06b1f7f584d5331142c09650652e0a923151`;
 
-              // const blob = await response.blob();
-              // console.log("🚀 ~ handleGitLabDownload ~ blob:", blob);
-              // const link = document.createElement("a");
-              // link.href = URL.createObjectURL(blob);
-              // link.download = "mvxwallets-main.zip";
-              // link.click();
-              // handleUpload(blob);
-          // }
+        //   // const newurl = 'https://gitlab.invozone.com/Zaryab/mvxwallets/-/archive/main/mvxwallets-main.zip';
+
+
+
+        //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
+        //   const proxyURL = `https://corsproxy.io/?${encodeURIComponent(newapiURL)}`;
+
+        //   // const headers = {
+        //   //   authorization: `Bearer ${token}`,
+        //   //   "user-agent": "NodeSecure"
+        //   // };
+
+        //   // const response = await fetch(newapiURL)
+
+        //   const response = await fetch(newapiURL, {
+        //     method: "GET",
+        //     headers: {
+        //         // "Authorization": `Bearer ${token}`, // Replace with your GitLab token
+        //         'Accept': 'application/vnd.github+json',
+        //         // 'User-Agent': 'request',
+        //         // "Accept": "application/octet-stream", // Indicate expected response type
+        //     },
+        // });
+
+
+        //       const projectID = encodeURIComponent("Zaryab/mvxwallets");
+        // const source = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
+
+
+        //   // Make a GET request to download the tar.gz file
+        //   const response = await axios.get(source, {
+        //     responseType: 'blob', // Get the data as a Blob
+        //     headers: {
+        //       // Add any required headers for authentication if necessary
+        //       Authorization: `Bearer ${token}`, // Replace with your GitLab token
+        //       Accept:  'application/octet-stream' 
+
+        //     }
+        //   });
+
+        // console.log("response", response)
+        // if (!response.ok) {
+        //     throw new Error(`Error: ${response.status} ${response.statusText}`);
+        // }
+
+        // const blob = await response.blob();
+        // console.log("🚀 ~ handleGitLabDownload ~ blob:", blob);
+        // const link = document.createElement("a");
+        // link.href = URL.createObjectURL(blob);
+        // link.download = "mvxwallets-main.zip";
+        // link.click();
+        // handleUpload(blob);
+        // }
         // } catch (error) {
         //   setProgressBar(false);
         //   console.error("Failed to fetch:", error.message);
