@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "@mui/joy/Button";
-import Scanner from "@mui/icons-material/Scanner";
+import { Button } from "@mui/material";;
+
 
 const UploadForm = ({ handleUpload, fileInputRef, setGithubURL, githubURL }) => {
   const [file, setFile] = useState(null);
@@ -42,7 +42,7 @@ const UploadForm = ({ handleUpload, fileInputRef, setGithubURL, githubURL }) => 
           style={{
             display: "block",
             margin: "10px auto",
-            padding: "10px",
+            padding: "10px 5px",
             border: "1px solid #ccc",
             borderRadius: "5px",
             width: "98%",
@@ -50,18 +50,8 @@ const UploadForm = ({ handleUpload, fileInputRef, setGithubURL, githubURL }) => 
         />
 
         <Button
-          className="scanBtn"
+          variant="contained" color="primary" fullWidth
           type="submit"
-          startDecorator={<Scanner />}
-          sx={{
-            backgroundColor: "#1A76D2",
-            color: "white",
-            textTransform: "none",
-            fontWeight: "bold",
-            width: "98%",
-            borderRadius: "5px",
-            "&:hover": { backgroundColor: "#155a9f" },
-          }}
         >
           Scan
         </Button>

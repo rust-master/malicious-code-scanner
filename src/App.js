@@ -7,10 +7,13 @@ import JSZip from "jszip";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import ResponsiveAppBar from "./AppBar";
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { Box, TextField, Button, Divider } from "@mui/material";
+
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -18,6 +21,7 @@ function App() {
   const [progressBar, setProgressBar] = useState(false);
   const [isNewFile, setIsNewFile] = useState(false);
   const [githubURL, setGithubURL] = useState(""); // Track GitHub URL input
+  const [scanCommits, setScanCommits] = useState(false);
 
   const fileInputRef = React.createRef();
   const searchResults = [];
@@ -27,6 +31,10 @@ function App() {
     setResults([])
   }, [githubURL]);
 
+  const handleCheckboxChange = (event) => {
+    setScanCommits(event.target.checked);
+    console.log("Scan GitHub Commits:", event.target.checked);
+  };
 
   const handleUpload = (file) => {
     setIsNewFile(true); // Indicate a new file has been selected
@@ -187,6 +195,10 @@ function App() {
           const blob = await response.blob();
           console.log("🚀 ~ handleGitHubDownload ~ blob:", blob);
           handleUpload(blob); // Process the file with handleUpload
+
+          if (scanCommits) {
+            handleGitHubDownloadCommitsZip()
+          }
         }
 
       } else {
@@ -198,6 +210,56 @@ function App() {
       setProgressBar(false);
     }
   };
+
+  const handleGitHubDownloadCommitsZip = async () => {
+    try {
+      // Validate the GitHub URL
+      const url = new URL(githubURL);
+
+      if (!url.protocol.startsWith("https:")) {
+        alert("Invalid GitHub URL. Please enter a valid HTTPS URL.");
+        throw new Error("Invalid GitHub URL. Please enter a valid HTTPS URL.");
+      }
+
+      if (githubURL) {
+        setProgressBar(true);
+        setIsNewFile(true);
+
+        const repo = url.pathname.replace(/^\//, "").replace(/\/$/, "");
+        const apiCommitsUrl = `https://api.github.com/repos/${repo}/commits`;
+
+        const commitsResponse = await axios.get(apiCommitsUrl);
+        console.log("🚀 ~ handleGitHubDownloadCommitsZip ~ commitsResponse:", commitsResponse);
+
+        const commits = commitsResponse.data.map(commit => commit.sha);
+        console.log("Commits:", commits);
+
+        for (const commit of commits) {
+          console.log("🚀 ~ handleGitHubDownloadCommitsZip ~ commit:", commit);
+          // Request ZIP archive for each commit
+          const codeloadUrl = `https://codeload.github.com/${repo}/zip/${commit}`;
+          const proxyURL = `https://corsproxy.io/?${encodeURIComponent(codeloadUrl)}`;
+
+          const response = await fetch(proxyURL);
+
+          if (!response.ok) {
+            throw new Error(`Failed to download commit ${commit} of the GitHub project.`);
+          }
+
+          const blob = await response.blob();
+          console.log("🚀 ~ handleGitHubDownloadCommitsZip ~ blob:", blob);
+          await handleUpload(blob); // Process the file with handleUpload
+        }
+      } else {
+        alert("Please enter a valid GitHub URL.");
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setProgressBar(false);
+    }
+  };
+
 
   const handleGitLabDownload = async () => {
     try {
@@ -247,97 +309,6 @@ function App() {
         }
 
         setResults(searchResults);
-
-        // try {
-        //   const response = await fetch(apiURL);
-        //   console.log("🚀 ~ handleGitLabDownload ~ response:", response);
-        //   if (!response.ok) {
-        //     throw new Error(`Error: ${response.status} ${response.statusText}`);
-        //   }
-        //   const branches = await response.json();
-        //   console.log("Branches:", branches);
-
-
-
-        // for (const branch of branches) {
-        //   console.log("🚀 ~ handleGitLabDownload ~ branch:", branch);
-
-
-
-        //   const idp = encodeURIComponent("rust/hello_world")
-        //   const newapiURL = `https://gitlab.com/api/v4/projects/${idp}/repository/archive`
-        //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
-
-        //   // const proxyURL = `https://corsproxy.io/?${encodeURIComponent(newapiURL)}`;
-
-        //   // const response = await fetch(proxyURL);
-
-
-
-
-        //   // GET /projects/:id/repository/blobs/:sha
-
-
-        //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/blobs/ad1b06b1f7f584d5331142c09650652e0a923151`;
-
-        //   // const newurl = 'https://gitlab.invozone.com/Zaryab/mvxwallets/-/archive/main/mvxwallets-main.zip';
-
-
-
-        //   // const newapiURL = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
-        //   const proxyURL = `https://corsproxy.io/?${encodeURIComponent(newapiURL)}`;
-
-        //   // const headers = {
-        //   //   authorization: `Bearer ${token}`,
-        //   //   "user-agent": "NodeSecure"
-        //   // };
-
-        //   // const response = await fetch(newapiURL)
-
-        //   const response = await fetch(newapiURL, {
-        //     method: "GET",
-        //     headers: {
-        //         // "Authorization": `Bearer ${token}`, // Replace with your GitLab token
-        //         'Accept': 'application/vnd.github+json',
-        //         // 'User-Agent': 'request',
-        //         // "Accept": "application/octet-stream", // Indicate expected response type
-        //     },
-        // });
-
-
-        //       const projectID = encodeURIComponent("Zaryab/mvxwallets");
-        // const source = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
-
-
-        //   // Make a GET request to download the tar.gz file
-        //   const response = await axios.get(source, {
-        //     responseType: 'blob', // Get the data as a Blob
-        //     headers: {
-        //       // Add any required headers for authentication if necessary
-        //       Authorization: `Bearer ${token}`, // Replace with your GitLab token
-        //       Accept:  'application/octet-stream' 
-
-        //     }
-        //   });
-
-        // console.log("response", response)
-        // if (!response.ok) {
-        //     throw new Error(`Error: ${response.status} ${response.statusText}`);
-        // }
-
-        // const blob = await response.blob();
-        // console.log("🚀 ~ handleGitLabDownload ~ blob:", blob);
-        // const link = document.createElement("a");
-        // link.href = URL.createObjectURL(blob);
-        // link.download = "mvxwallets-main.zip";
-        // link.click();
-        // handleUpload(blob);
-        // }
-        // } catch (error) {
-        //   setProgressBar(false);
-        //   console.error("Failed to fetch:", error.message);
-        // }
-
 
       } else {
         alert("Please enter a valid URL");
@@ -411,106 +382,62 @@ function App() {
         : "#C83739";
 
   return (
-    <div
-      className="main"
-      style={{
-        overflow: "hidden",
-        backgroundColor: backgroundColor,
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+
+    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+      {/* Header */}
       <ResponsiveAppBar />
-      <div className="App" style={{ width: "100%", maxWidth: "800px", margin: "auto" }}>
-        <ToastContainer />
-        <Card
-          className="CardDiv"
-          sx={{
-            marginTop: 5,
-            marginBottom: 5,
-            padding: "20px",
-            boxShadow: "10 18px 26px rgba(0, 0, 0, 0.2)",
-            borderRadius: "10px",
-          }}
-        >
+      <ToastContainer />
+
+      {/* Main Content */}
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          padding: 2,
+          backgroundColor: "#f5f5f5",
+        }}
+      >
+        {/* Left Side: App Card */}
+        <Card sx={{ width: "45%", padding: 2, boxShadow: 3 }}>
           <CardContent>
-            <Typography
-              variant="h5"
-              style={{
-                color: "#1A76D2",
-                fontWeight: "bold",
-                textAlign: "center",
-                marginBottom: "20px",
-                fontFamily: "Be Vietnam Pro, Arial, sans-serif",
-                lineHeight: "1.6",
-              }}
-            >
+            <Typography variant="h6" gutterBottom>
               Upload a project ZIP file or enter a GitHub, GitLab, or Bitbucket project URL
             </Typography>
-          </CardContent>
-
-          {/* Input Section */}
-          <div style={{ marginBottom: "20px" }}>
-            <input
-              type="text"
+            <TextField
+              fullWidth
+              label="Enter a GitHub, GitLab, or Bitbucket project URL"
               value={githubURL}
               onChange={(e) => setGithubURL(e.target.value)}
-              placeholder="Enter a GitHub, GitLab, or Bitbucket project URL"
-              style={{
-                width: "97%",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-                fontSize: "16px",
-                marginBottom: "10px",
-              }}
             />
-            <button
-              onClick={handleDownload}
-              style={{
-                width: "98%",
-                backgroundColor: "#1A76D2",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                padding: "10px",
-                fontSize: "16px",
-                cursor: "pointer",
-              }}
-            >
+            <FormControlLabel
+              sx={{ float: 'left' }}
+              control={
+                <Checkbox
+                  checked={scanCommits}
+                  onChange={handleCheckboxChange}
+                  color="primary"
+                />
+              }
+              label="Include GitHub Commits"
+              style={{ display: "flex", justifyContent: "left" }}
+            />
+            <Button variant="contained" color="primary" fullWidth sx={{ marginBottom: 2 }} onClick={handleDownload}>
               Download and Scan
-            </button>
-          </div>
+            </Button>
 
-          {/* Divider */}
-          <Typography
-            variant="body2"
-            style={{
-              textAlign: "center",
-              margin: "20px 0",
-              color: "#666",
-              fontFamily: "Arial, sans-serif",
-            }}
-          >
-            OR
-          </Typography>
+            <Divider sx={{ marginY: 3 }} />
 
-          {/* File Upload Section */}
-          <UploadForm
-            handleUpload={handleUpload}
-            fileInputRef={fileInputRef}
-            setGithubURL={setGithubURL}
-            githubURL={githubURL}
-            setResults={setResults}
-            results={results}
-          />
-
-          {/* Scan Results Section */}
-          <SearchResults results={results} />
-
-          {/* Progress Bar */}
+            <UploadForm
+              handleUpload={handleUpload}
+              fileInputRef={fileInputRef}
+              setGithubURL={setGithubURL}
+              githubURL={githubURL}
+              setResults={setResults}
+              results={results}
+            />
+          </CardContent>
           <LinearProgress
             color="success"
             sx={{
@@ -520,26 +447,36 @@ function App() {
             }}
           />
         </Card>
-      </div>
+
+        {/* Right Side: Scan Results Card */}
+        <Card sx={{ width: "45%", padding: 2, boxShadow: 3 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Scan Results
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <SearchResults results={results} />
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
 
       {/* Footer */}
-
-      <footer style={{ marginBottom: "20px", fontSize: "14px", color: "#666" }}>
-        Developed by{" "}
-        <a
-          style={{ color: "#1A76D9", textDecoration: "none" }}
-          href="https://github.com/rust-master"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Rust Master ❤️
-        </a>
-      </footer>
-
+      <Box className="footer">
+        <Typography variant="body2" >
+          Developed by <a
+            style={{ color: "#1A76D9", textDecoration: "none" }}
+            href="https://github.com/rust-master"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Rust Master ❤️
+          </a>
+        </Typography>
+      </Box>
       <Analytics />
-    </div>
-
+    </Box>
   );
-}
+};
 
 export default App;
