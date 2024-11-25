@@ -393,6 +393,7 @@ function App() {
         sx={{
           flex: 1,
           display: "flex",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-around",
           alignItems: "center",
           padding: 2,
@@ -400,7 +401,8 @@ function App() {
         }}
       >
         {/* Left Side: App Card */}
-        <Card sx={{ width: "45%", padding: 2, boxShadow: 3 }}>
+        <Card
+          sx={{ width: { xs: "90%", md: "45%" }, padding: 2, boxShadow: 3, marginBottom: { xs: 2, md: 0 }, }}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
               Upload a project ZIP file or enter a GitHub, GitLab, or Bitbucket project URL
@@ -449,7 +451,7 @@ function App() {
         </Card>
 
         {/* Right Side: Scan Results Card */}
-        <Card sx={{ width: "45%", padding: 2, boxShadow: 3 }}>
+        <Card sx={{ width: { xs: "90%", md: "45%" }, padding: 2, boxShadow: 3 }}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
               Scan Results
@@ -462,7 +464,9 @@ function App() {
       </Box>
 
       {/* Footer */}
-      <Box className="footer">
+      <Box className="footer" sx={{
+        fontSize: { xs: "0.8rem", md: "1rem" },
+      }}>
         <Typography variant="body2" >
           Developed by <a
             style={{ color: "#1A76D9", textDecoration: "none" }}
