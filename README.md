@@ -8,6 +8,9 @@ This project aims to detect and scan the malicious code in the project. Mostly t
 
 ## New Features
 - GitHub Repo URL
+- Bitbucket Repo URL
+- GitLab Repo URL
+
 
 ## Available Scripts
 
